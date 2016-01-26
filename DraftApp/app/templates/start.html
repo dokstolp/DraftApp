@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container theme-showcase" role="main">
+	<div class="jumbotron">
+	        <h1>Which pick do you want to be?</h1>
+		        <p>{{user}}, this is a mock draft.</p>
+	</div>
+	<form action="{{ url_for('get_pick') }}" method="post" class=add-entry>
+		<dl>
+			<dt>Pick:</dt>
+			<dd><input type=text size=30 name=picking></dd>
+			<dt>League Difficulty (1-10)</dt>
+			<dd><input type=text size=30 name=diff></dd>
+			<dd><input type=submit class="btn btn-default" value='Your Pick'></dd>
+		</dl>
+	</form>
+</div>
+{% endblock %}

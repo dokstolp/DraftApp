@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block content %}
+<script type=text/javascript>
+	
+	var outPlayers = 0, outTeam=0, iter=0, round=0; 
+	var user = "{{user}}";
+	var pock = {{pock}};
+	var lamb = {{lamb}};
+	console.log(iter);
+	
+	$( document ).ready(function() {
+		$.getJSON('/draft_temp', function(data) {
+			outPlayers = data.players
+			outTeam = data.team
+			iter = data.iter
+			round = data.round
+			drawTables(outTeam)
+			drawPlayers(outPlayers)
+			console.log(user+" is picking "+round+" in a mock draft");
+			$("#maint").text(user+" is picking "+pock+" in a mock draft");
+			$("#sect").text("Round Number "+round);
+			$("#thrt").text("Pick Number "+iter);
+		});
+
+	});
+
+	$(function() {
+		$('#button-nav').click(function() {
+			console.log(event.target)
+			$.getJSON('/draft', {
+			 chosen:$(event.target).val(),
+			 players:JSON.stringify(outPlayers),
+			 teams:JSON.stringify(outTeam),
+			 pock:pock,
+			 lamb:lamb,
+			 iter:iter
+			}, function(data) {
+				outPlayers = data.players
+				outTeam = data.team
+				iter = data.iter
+				round = data.round
+				drawTables(outTeam)
+				drawPlayers(outPlayers)
+				console.log(outPlayers)
+				console.log(outTeam)
+				$("#sect").text("Round Number "+round);
+				$("#thrt").text("Pick Number "+iter);
+			});
+		});
+	});
+	
+	function drawPlayers(playa){
+		$('#playerList tbody').remove()
+		for (var i=0; i<playa.length; i++) {
+			if (i>=100){
+				break;
+			};
+			tr = $('<tbody>');
+			tr.append('<tr>');
+			tr.append("<td>" + playa[i].name + "</td>");
+			tr.append("<td>" + playa[i].position + "</td>");
+			tr.append("<td>" + playa[i].adp + "</td>");
+			if(user =='Dusty'){
+				tr.append("<td>" + playa[i].selfrank + "</td>");
+				tr.append("<td>" + playa[i].value.toFixed(3) + "</td>");
+				tr.append("<td>" + playa[i].dpoints.toFixed(3) + "</td>");
+				tr.append("<td>" + playa[i].upoints.toFixed(3) + "</td>");
+			};
+			if (iter > playa[i].adp) {
+				tr.append("<td><button type='submit' class='btn btn-danger' value='"+playa[i].name+"'>Value Pick</button></td>");
+			}
+			else{
+				if (iter + 10 > playa[i].adp){
+					tr.append("<td><button type='submit' class='btn btn-warning' value='"+playa[i].name+"'>May Be Picked Soon</button></td>");
+				}
+				else{
+					tr.append("<td><button type='submit' class='btn btn-default' value='"+playa[i].name+"'>Pick Me!</button></td>");
+				};
+			};
+			tr.append("</tr>");
+			tr.append("</tbody>");
+			$('#playerList').append(tr);	
+		};
+	};
+	function drawTables(data) {
+		for(var p=0;p<data.length;p++) {
+			$('table').eq(p+1).empty();
+			tr = $('<thead>');
+			tr.append('<tr>');
+			tr.append('<th>Name</th>');
+			tr.append('<th>Position</th>');
+			tr.append('<th>ADP</th>');
+			tr.append('<th>Points</th>');
+			tr.append('<th>Picked</th>');
+			tr.append('</tr>');
+			tr.append('</thead>');
+			$('table').eq(p+1).append(tr);
+			for (var i=0;i<data[p].length;i++) {
+				drawRow(data[p][i],p);
+			};
+		};
+	};
+
+	function drawRow(data,team) {
+		tr = $('<tbody>');
+		tr.append('<tr>');
+		tr.append("<td>" + data.name + "</td>");
+		tr.append("<td>" + data.position + "</td>");
+		tr.append("<td>" + data.adp + "</td>");
+		tr.append("<td>" + data.upoints.toFixed(3) + "</td>");
+		tr.append("<td>" + data.picked + "</td>");
+		tr.append('</tr>');
+		tr.append('</tbody>');
+		$('table').eq(team+1).append(tr);
+	};
+
+
+</script>
+<div class="container theme-showcase" role="main">
+         <div class="jumbotron">
+	        <h1 id="maint">You will be drafting soon</h1>
+			<p id="sect"></p>
+		        <p id="thrt"></p>
+	</div>
+	<div class="row">
+	        <div class="col-md-6" id="button-nav">
+			<table class="table table-striped" id="playerList">
+				<h1>
+        				<span class="label label-default">My Rankings</span>
+				</h1>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Position</th>
+						<th>ADP</th>
+						{% if user == 'Dusty' %}
+							<th>Self Rank</th>
+							<th>Value</th>
+							<th>Points Behind</th>
+							<th>Points</th>
+						{%endif%}
+						<th>Pick</th>
+					<tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+	{%for team in range(10) %}
+		<h3>
+			<span class="label label-default">Team {{loop.index}}</span>
+		</h3>
+                <div class="col-md-6">
+			<table class="table table-striped">
+			</table>
+		</div>
+	{%endfor%}
+	</div>
+{% endblock %}

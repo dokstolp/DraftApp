@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+	<div class="container theme-showcase" role="main">
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+		<h1>Which draft pick are you?</h1>
+			<p>{{user}} Input the draft position for your first pick.</p>
+        </div>
+	<form action="{{ url_for('get_rpick') }}" method="post" class=add-entry>
+		<dl>
+			<dt>Pick:</dt>
+			<dd><input type=text size=30 name=picking></dd>
+			<dd><input type=submit value='Your Pick'></dd>
+		</dl>
+	</form>
+{% endblock %}
