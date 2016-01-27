@@ -20,7 +20,7 @@ try:
 		cursor.execute("DROP TABLE `de_xls`")
 		cursor.execute("DROP TABLE `rank_xls`")
 	except:
-		print("table already doesn't exist, bitch")
+		print("table already doesn't exist")
 	List = ['QB','RB','WR','TE','K','DE','RANK']
 	plist = {'QB':'qb_xls','RB':'rb_xls','WR':'wr_xls','TE':'te_xls','K':'k_xls','DE':'de_xls'}
 	pTable = {}
