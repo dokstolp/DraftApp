@@ -12,6 +12,8 @@ def getTeam(i):
                 return (21-i)%20
 
 def getRankVals(player):
+        #value = 0.02*(80-float(player.rank))
+        #value = 2*exp(-float(player.rank)/5)
         value = 2.2*exp(-float(player.rank)/5)
         return value
 
@@ -23,6 +25,7 @@ def getNPos(tlist):
 		for pos in List:
                 	if play.position == pos:
                         	npos[pos]+=1
+	#print "nWR "+str(npos['WR'])+" nRB "+str(npos['RB'])
         return npos
 
 def getMaxs(list):
@@ -37,8 +40,12 @@ def getMaxs(list):
 	return pmax
 
 def returnPlayer(play,list):
+	print play
         for pl in list:
+		print "players are "+str(pl.name)+"   "+str(pl.selfrank)+"  "+str(play)
                 if int(pl.selfrank) == int(play):
+			print "in selfrank"
+			print pl.name
                         return pl
 
 def darank(lamb):

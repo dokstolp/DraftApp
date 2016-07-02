@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% block content %}
+<script type=text/javascript>
+	var outPlayers = 0;
+	var qb=0,rb=0,wr=0,te=0,k=0,de=0;
+
+	$( document ).ready(function() {
+		$.getJSON('/load_vals',function(data) {
+			outPlayers = data.players
+			qb = data.qb
+			rb = data.rb
+			wr = data.wr
+			te = data.te
+			k = data.k
+			de = data.de
+			drawTables(outPlayers)
+			drawSliders(qb,rb,wr,te,k,de)
+		});
+	});
+
+	$(function() {
+		$('#former').submit(function() {
+			var $input = $(event.target).serializeArray();
+			var ar = []
+			for(var i=0;i<$input.length;i++) {
+				ar.push($input[i].value)
+			}
+			$.post('/save_posVals', {
+			values:JSON.stringify(ar)
+			}, function(data) {
+				outPlayers = data.players
+                        	qb = data.qb
+				rb = data.rb
+                        	wr = data.wr
+                        	te = data.te
+                        	k = data.k
+				de = data.de
+				drawTables(outPlayers)
+				drawSliders(qb,rb,wr,te,k,de)
+			},"json");
+		});
+	});
+
+	$(function() {
+		$('#formal').on('submit',function(){
+			var $btn = $(document.activeElement);
+			if($btn.is('button[type="submit"], input[type="submit"]')){
+				var in1 = $btn.attr('name');
+			}
+			var myadj = $("#"+in1+"1").val();
+			var mydp = $("#"+in1+"2").val();
+			var name = in1;
+			$.post('/save_myAdj', {
+			 myadjust:myadj,
+			 dpoints:mydp,
+			 player:name
+			}, function(data) {
+				outPlayers = data.players
+				drawTables(outPlayers)
+				drawSliders(qb,rb,wr,te,k,de)
+			});
+//			alert(myadj+' '+mydp+' '+name);
+		});
+	});
+
+	function drawTables(playa){
+		for (var i=0; i<playa.length; i++){
+			if (i>=100){
+				break;
+			};
+			tr = $("<tbody>");
+			tr.append("<tr>");
+			tr.append("<td>"+playa[i].selfrank + "</td>");
+			tr.append("<td>"+playa[i].name + "</td>");
+			tr.append("<td>"+playa[i].position + "</td>");
+			tr.append("<td>"+playa[i].adp + "</td>");
+			tr.append("<td>"+Math.round(playa[i].upoints*100)/100.0+"</td>");
+			tr.append("<td><input type='text' name='slider' id='"+playa[i].idrank+"1' value='"+playa[i].myadj+"' data-slider-min='-3' data-slider-max='3' data-slider-step='1' data-slider-value='"+playa[i].myadj+"' /></td>");
+			tr.append("<td><input type='text'  id='"+playa[i].idrank+"2' value='"+playa[i].mydp+"' /></td>");
+			tr.append("<td><button type='submit' name='"+playa[i].idrank+"' class='btn btn-default'>Submit</button></td>");
+			tr.append('</tr>');
+			tr.append('</tbody>');
+			$('#playerList').append(tr);
+		}
+	}
+
+	function drawSliders(qb,rb,wr,te,k,de){
+		for(var p=0;p<qb.length;p++) {
+			var l = p+1
+			tr = $('<td>'+l+'</td>')
+			tr.append("<td><input type='text' name='slider' id='qb"+p+"' value='"+qb[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+qb[p]+"' style='width:90px' /></td>");
+			$('#qbeval').append(tr)
+		}
+		for(var p=0;p<rb.length;p++) {
+			var l = p+1
+			tr = $('<td>'+l+'</td>')
+			tr.append("<td><input type='text' name='slider' id='rb"+p+"' value='"+rb[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+rb[p]+"' style='width:90px' /></td>");
+			$('#rbeval').append(tr)
+		}
+		for(var p=0;p<wr.length;p++) {
+			var l = p+1
+			tr = $('<td>'+l+'</td>')
+			tr.append("<td><input type='text' name='slider' id='wr"+p+"' value='"+wr[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+wr[p]+"' style='width:90px' /></td>");
+			$('#wreval').append(tr)
+		}
+		for(var p=0;p<te.length;p++) {
+			var l = p+1
+			tr = $('<td>'+l+'</td>')
+			tr.append("<td><input type='text' name='slider' id='te"+p+"' value='"+te[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+te[p]+"' style='width:90px' /></td>");
+			$('#teeval').append(tr)
+		}
+		for(var p=0;p<k.length;p++) {
+			var l = p+1
+			tr = $('<td>'+l+'</td>')
+			tr.append("<td><input type='text' name='slider' id='k"+p+"' value='"+k[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+k[p]+"' style='width:90px' /></td>");
+			$('#keval').append(tr)
+		}
+		for(var p=0;p<de.length;p++) {
+			var l = p+1
+			tr = $('<td>'+l+'</td>');
+			tr.append("<tr><td><input type='text' name='slider' id='de"+p+"' value='"+de[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+de[p]+"' style='width:90px' /></td></tr>");
+			$('#deeval').append(tr)
+		}
+		$("input[name='slider']").slider();
+	}
+
+
+
+
+
+</script>
+<!https://jsfiddle.net/9db4vere/>
+<!https://jsfiddle.net/dg4hsmzy/>
+<div class="container theme-showcase" role="main">
+         <div class="jumbotron">
+                <h1 id="maint">Setup your preferences</h1>
+                        <p id="sect"></p>
+                        <p id="thrt"></p>
+        </div>
+	<div class="row">
+		<form id='former' name='everything'>
+			<div class="col-sm-10">
+				<table class="table table-striped" id="qbeval">
+					<tr><th>QB</th></tr>
+				</table>
+			</div>
+			<div class="col-sm-20">
+				<table class="table table-striped" id="rbeval">
+					<tr><th>RB</th></tr>
+				</table>
+			</div>
+			<div class="col-sm-20">
+				<table class="table table-striped" id="wreval">
+					<tr><th>WR</th></tr>
+				</table>
+			</div>
+			<div class="col-sm-10">
+				<table class="table table-striped" id="teeval">
+					<tr><th>TE</th></tr>
+				</table>
+			</div>
+			<div class="col-sm-10">
+				<table class="table table-striped" id="keval">
+					<tr><th>K</th></tr>
+				</table>
+			</div>
+			<div class="col-sm-10">
+				<table class="table table-striped" id="deeval">
+					<tr><th>DE</th></tr>
+				</table>
+			</div>
+			<button type='submit' class='btn btn-default'>Submit Position Evaluations</button>
+		</form>
+		<form id='formal' name='justlike'>
+			<div class="col-md-6" id="formal">
+				<table class="table table-striped" id="playerList">
+					<h1>
+						<span class="label label-default" id="ranktype">My Rankings</span>
+					</h1>
+					<thead>
+						<tr>
+							<th>My Rank</th>
+							<th>Name</th>
+							<th>Position</th>
+							<th>ADP</th>
+							<th>My Points</th>
+							<th>My Adjustment(low-high)</th>
+							<th>My Points Adjustment</th>
+							<th>Submit</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</form>
+	</div>
+{% endblock %}		

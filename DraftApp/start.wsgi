@@ -3,7 +3,7 @@ import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
 sys.stdout = sys.stderr
-sys.path.insert(0,"/var/www/DraftApp/")
+sys.path.insert(0,"/var/www/FlaskApp/")
 
 print "in start"
 
