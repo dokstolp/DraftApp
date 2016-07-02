@@ -18,11 +18,8 @@ def get_username():
 	name = request.form['user']
 	password = request.form['password']
 	toRun = request.form['type']
-	passp = 'myPassword'
+	passp = ''
 	isSet = False
-#	passp = 'GoFuckYourself'
-#	print name
-#	print toRun
 	if(toRun == "Guest Mock"):
 		user = "Guest"
 		isMock = True

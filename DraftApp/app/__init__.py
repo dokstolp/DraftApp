@@ -7,18 +7,4 @@ if __name__=="__main__":
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
-#@app.before_request
-#def db_connect():
-#	connection = pymysql.connect(host='localhost',
-#                             user='root',
-#                             password='ILikeToBrew!14',
-#                             db='NFL_Draft',
-#                             charset='utf8mb4',
-#			     local_infile=True,
-#                             cursorclass=pymysql.cursors.DictCursor)
-
-#@app.teadown_request
-#def db_disconnect(exception=None):
-#	connection.close()
-
 from app import views

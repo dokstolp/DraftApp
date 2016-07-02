@@ -2,8 +2,8 @@ import pymysql.cursors
 import numpy as np
 # Connect to the database
 connection = pymysql.connect(host='localhost',
-                             user='root',
-                             password='ILikeToBrew!14',
+                             user='',
+                             password='',
                              db='NFL_Draft',
                              charset='utf8mb4',
 			     local_infile=True,

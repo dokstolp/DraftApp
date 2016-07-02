@@ -72,10 +72,9 @@ class Player(object):
 def playerList():
 	rets = []
         connection = pymysql.connect(host='localhost',
-        #connection = pymysql.connect(host='67.161.161.203',
                                      port=3306,
-                                     user='dstolp',
-                                     password='ILikeToBrew!14',
+                                     user='',
+                                     password='',
                                      db='NFL_Draft',
                                      charset='utf8mb4',
                                      cursorclass=pymysql.cursors.DictCursor)
@@ -220,8 +219,8 @@ def saveAdj(player,myadjust,dpoints):
         connection = pymysql.connect(host='localhost',
         #connection = pymysql.connect(host='67.161.161.203',
                                      port=3306,
-                                     user='dstolp',
-                                     password='ILikeToBrew!14',
+                                     user='',
+                                     password='',
                                      db='NFL_Draft',
                                      charset='utf8mb4',
                                      cursorclass=pymysql.cursors.DictCursor)
@@ -247,8 +246,8 @@ def savePosVals(instring):
         connection = pymysql.connect(host='localhost',
         #connection = pymysql.connect(host='67.161.161.203',
                                      port=3306,
-                                     user='dstolp',
-                                     password='ILikeToBrew!14',
+                                     user='',
+                                     password='',
                                      db='NFL_Draft',
                                      charset='utf8mb4',
                                      cursorclass=pymysql.cursors.DictCursor)
@@ -293,8 +292,8 @@ def getPosVals():
         connection = pymysql.connect(host='localhost',
         #connection = pymysql.connect(host='67.161.161.203',
                                      port=3306,
-                                     user='dstolp',
-                                     password='ILikeToBrew!14',
+                                     user='',
+                                     password='',
                                      db='NFL_Draft',
                                      charset='utf8mb4',
                                      cursorclass=pymysql.cursors.DictCursor)
