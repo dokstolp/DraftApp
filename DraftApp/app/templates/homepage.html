@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container theme-showcase" role="main">
+	<div class="jumbotron">
+	        <h1>Welcome {{user}}, what would you like to do?</h1>
+	</div>
+	<form action="{{ url_for('userPage') }}" method="post" class=add-entry>
+		<dl>
+			<dd><button type=submit class="btn btn-default" name=type value='Mock'>Mock Draft</dd>
+			<dd><button type=submit class="btn btn-default" name=type value='Real'>Real Draft</dd>
+			<dd><button type=submit class="btn btn-default" name=type value='SetValues'>Set Values</dd>
+		</dl>
+	</form>
+</div>
+{% endblock %}

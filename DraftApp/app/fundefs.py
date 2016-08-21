@@ -2,6 +2,7 @@ from array import array
 from math import exp
 import pymysql.cursors
 import random
+from werkzeug.security import generate_password_hash, check_password_hash
 
 List = ["QB","RB","WR","TE","K","DE"]
 
@@ -25,7 +26,6 @@ def getNPos(tlist):
 		for pos in List:
                 	if play.position == pos:
                         	npos[pos]+=1
-	#print "nWR "+str(npos['WR'])+" nRB "+str(npos['RB'])
         return npos
 
 def getMaxs(list):
@@ -40,12 +40,8 @@ def getMaxs(list):
 	return pmax
 
 def returnPlayer(play,list):
-	print play
         for pl in list:
-		print "players are "+str(pl.name)+"   "+str(pl.selfrank)+"  "+str(play)
                 if int(pl.selfrank) == int(play):
-			print "in selfrank"
-			print pl.name
                         return pl
 
 def darank(lamb):
@@ -54,3 +50,30 @@ def darank(lamb):
         else:
                 val = int(random.expovariate((float(lamb)/5.)))
         return val
+
+def checkUser(username,password):
+        cursor = g.db_conn.cursor()
+	cursor.execute("SELECT `password` FROM `users` WHERE username = '"+username+"'")
+	passwordhash = cursor.fetchall()
+	if len(passwordhash) is 1:
+		if check_password_hash(passwordhash[0]['password'], password):				
+			return True
+	return False
+		
+def unusedUser(username,email):
+        cursor = g.db_conn.cursor()
+	selector = "SELECT `username` FROM `users` WHERE username = '"+username+"' OR email = '"+email+"'"
+	cursor.execute(selector)
+	user = cursor.fetchall()
+	apple.append(user)
+	if len(apple) > 1:
+		return False
+	return True
+
+def addUser(username,password,email):
+        cursor = g.db_conn.cursor()
+	hashed = generate_password_hash(password)
+	tableCreator = "CREATE TABLE `myVals"+username+"` (`rank` INT, `player` varchar(255) NOT NULL, `value` float DEFAULT 0, `dpoints` float DEFAULT 0, PRIMARY KEY(`player`)) ENGINE = memory;"
+	cursor.execute(tableCreator)
+	cursor.execute("INSERT INTO `myVals"+username+"` (player,rank) SELECT player,rank FROM rank_xls;")
+	cursor.execute("INSERT INTO `users` (`username`, `password`,`email`) VALUES ('"+username+"','"+hashed+"','"+email+"')");

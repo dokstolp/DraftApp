@@ -2,19 +2,17 @@
 {% block content %}
 <div class="container theme-showcase" role="main">
 	<div class="jumbotron">
-	        <h1>Login</h1>
+	        <h1>Welcome to Dusty's DraftApp</h1>
+			<p>What would you like to do?</p>
 	</div>
-	<form action="{{ url_for('get_username') }}" method="post" class=add-entry>
+	<form action="{{ url_for('homepage') }}" method="post" class=add-entry>
 		<dl>
-			<dt>Username:</dt>
-			<dd><input type=text size=30 name=user></dd>
-			<dt>Password:</dt>
-			<dd><input type=password size=30 name=password></dd>
-			<dd><button type="submit" class="btn btn-default" name=type value='Mock Draft'>Mock</button></dd>
-			<dd><button type="submit" class="btn btn-default" name=type value='Real Draft'>Real</button></dd>
-			<dd><button type="submit" class="btn btn-default" name=type value='Guest Mock'>Login Guest Mock</button></dd>
-			<dd><button type="submit" class="btn btn-default" name=type value='Guest Real'>Login Guest Real</button></dd>
-			<dd><button type="submit" class="btn btn-default" name=type value='myVal'>Set My Value</button></dd>
+				<dt>Username:</dt>
+					<dd><input type=text size=30 name=username></dd>
+				<dt>Password:</dt>
+					<dd><input type=password size=30 name=password></dd>
+					<dd><button type="submit" class="btn btn-default" name=type value='login'>Submit</button></dd>
+				<dd><button type="submit" class="btn btn-default" name=type value='createUser'>Create New Account</button></dd>
 		</dl>
 	</form>
 </div>

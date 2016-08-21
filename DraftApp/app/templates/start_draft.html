@@ -1,20 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <script type=text/javascript>
-	
 	var outPlayers = 0, outTeam=0, iter=0, round=0, type=0;
 	var user = "{{user}}";
 	var pock = {{pock}};
-	var lamb = {{lamb}};
-	var isMock = "{{isMock}}";
-	if (isMock == 'True'){
-		console.log("is Mock")
-		type = "mock"
-	}
-	else{
-		console.log("is not Mock")
-		type = "real"
-	};
+	type = "real"
 	$( document ).ready(function() {
 		$.getJSON('/draft_temp', function(data) {
 			outPlayers = data.players
@@ -39,7 +29,6 @@
 			 players:JSON.stringify(outPlayers),
 			 teams:JSON.stringify(outTeam),
 			 pock:pock,
-			 lamb:lamb,
 			 iter:iter
 			}, function(data) {
 				outPlayers = data.players
@@ -85,12 +74,10 @@
 			tr.append("<td>" + playa[i].name + "</td>");
 			tr.append("<td>" + playa[i].position + "</td>");
 			tr.append("<td>" + playa[i].adp + "</td>");
-			if(user =='Dusty'){
-				tr.append("<td>" + playa[i].selfrank + "</td>");
-				tr.append("<td>" + playa[i].value.toFixed(3) + "</td>");
-				tr.append("<td>" + playa[i].dpoints.toFixed(3) + "</td>");
-				tr.append("<td>" + playa[i].upoints.toFixed(3) + "</td>");
-			};
+			tr.append("<td>" + playa[i].selfrank + "</td>");
+			tr.append("<td>" + playa[i].value.toFixed(3) + "</td>");
+			tr.append("<td>" + playa[i].dpoints.toFixed(3) + "</td>");
+			tr.append("<td>" + playa[i].upoints.toFixed(3) + "</td>");
 			if (iter > playa[i].adp) {
 				tr.append("<td><button type='submit' class='btn btn-danger' value='"+playa[i].selfrank+"'>Value Pick</button></td>");
 			}
@@ -158,12 +145,10 @@
 						<th>Name</th>
 						<th>Position</th>
 						<th>ADP</th>
-						{% if user == 'Dusty' %}
-							<th>Self Rank</th>
-							<th>Value</th>
-							<th>Points Behind</th>
-							<th>Points</th>
-						{%endif%}
+						<th>Self Rank</th>
+						<th>Value</th>
+						<th>Points Behind</th>
+						<th>Points</th>
 						<th>Pick</th>
 					<tr>
 				</thead>

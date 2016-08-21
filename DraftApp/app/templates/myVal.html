@@ -50,22 +50,25 @@
 			var myadj = $("#"+in1+"1").val();
 			var mydp = $("#"+in1+"2").val();
 			var name = in1;
+			//alert(myadj+' '+mydp+' '+name);
 			$.post('/save_myAdj', {
 			 myadjust:myadj,
 			 dpoints:mydp,
 			 player:name
 			}, function(data) {
+				alert("before getting players")
 				outPlayers = data.players
+				alert("before drawing tables")
 				drawTables(outPlayers)
+				alert("before drawing sliders")
 				drawSliders(qb,rb,wr,te,k,de)
-			});
-//			alert(myadj+' '+mydp+' '+name);
+			},"json");
 		});
 	});
 
 	function drawTables(playa){
 		for (var i=0; i<playa.length; i++){
-			if (i>=100){
+			if (i>=250){
 				break;
 			};
 			tr = $("<tbody>");
@@ -88,37 +91,37 @@
 		for(var p=0;p<qb.length;p++) {
 			var l = p+1
 			tr = $('<td>'+l+'</td>')
-			tr.append("<td><input type='text' name='slider' id='qb"+p+"' value='"+qb[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+qb[p]+"' style='width:90px' /></td>");
+			tr.append("<td><input type='text' name='slider' id='qb"+p+"' value='"+qb[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.2' data-slider-value='"+qb[p]+"' style='width:150px' /></td>");
 			$('#qbeval').append(tr)
 		}
 		for(var p=0;p<rb.length;p++) {
 			var l = p+1
 			tr = $('<td>'+l+'</td>')
-			tr.append("<td><input type='text' name='slider' id='rb"+p+"' value='"+rb[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+rb[p]+"' style='width:90px' /></td>");
+			tr.append("<td><input type='text' name='slider' id='rb"+p+"' value='"+rb[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.2' data-slider-value='"+rb[p]+"' style='width:100px' /></td>");
 			$('#rbeval').append(tr)
 		}
 		for(var p=0;p<wr.length;p++) {
 			var l = p+1
 			tr = $('<td>'+l+'</td>')
-			tr.append("<td><input type='text' name='slider' id='wr"+p+"' value='"+wr[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+wr[p]+"' style='width:90px' /></td>");
+			tr.append("<td><input type='text' name='slider' id='wr"+p+"' value='"+wr[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.2' data-slider-value='"+wr[p]+"' style='width:100px' /></td>");
 			$('#wreval').append(tr)
 		}
 		for(var p=0;p<te.length;p++) {
 			var l = p+1
 			tr = $('<td>'+l+'</td>')
-			tr.append("<td><input type='text' name='slider' id='te"+p+"' value='"+te[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+te[p]+"' style='width:90px' /></td>");
+			tr.append("<td><input type='text' name='slider' id='te"+p+"' value='"+te[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.2' data-slider-value='"+te[p]+"' style='width:200px' /></td>");
 			$('#teeval').append(tr)
 		}
 		for(var p=0;p<k.length;p++) {
 			var l = p+1
 			tr = $('<td>'+l+'</td>')
-			tr.append("<td><input type='text' name='slider' id='k"+p+"' value='"+k[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+k[p]+"' style='width:90px' /></td>");
+			tr.append("<td><input type='text' name='slider' id='k"+p+"' value='"+k[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.2' data-slider-value='"+k[p]+"' style='width:400px' /></td>");
 			$('#keval').append(tr)
 		}
 		for(var p=0;p<de.length;p++) {
 			var l = p+1
 			tr = $('<td>'+l+'</td>');
-			tr.append("<tr><td><input type='text' name='slider' id='de"+p+"' value='"+de[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.1' data-slider-value='"+de[p]+"' style='width:90px' /></td></tr>");
+			tr.append("<tr><td><input type='text' name='slider' id='de"+p+"' value='"+de[p]+"' data-slider-min='0' data-slider-max='10' data-slider-step='0.2' data-slider-value='"+de[p]+"' style='width:200px' /></td></tr>");
 			$('#deeval').append(tr)
 		}
 		$("input[name='slider']").slider();
@@ -129,8 +132,6 @@
 
 
 </script>
-<!https://jsfiddle.net/9db4vere/>
-<!https://jsfiddle.net/dg4hsmzy/>
 <div class="container theme-showcase" role="main">
          <div class="jumbotron">
                 <h1 id="maint">Setup your preferences</h1>
