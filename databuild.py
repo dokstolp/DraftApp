@@ -20,6 +20,7 @@ teams = {'Houston Texans':'HST','Denver Broncos':'DEN',
         'San Francisco 49ers':'SF','Cleveland Browns':'CLE'
 }
 
+# urls for fantasy expert predictions 
 url = {'qb':"https://www.fantasypros.com/nfl/projections/qb.php?max-yes=true&min-yes=true&scoring=STD&week=draft",
        'rb':"https://www.fantasypros.com/nfl/projections/rb.php?max-yes=true&min-yes=true&scoring=STD&week=draft",
        'wr':"https://www.fantasypros.com/nfl/projections/wr.php?max-yes=true&min-yes=true&scoring=STD&week=draft",
@@ -27,11 +28,13 @@ url = {'qb':"https://www.fantasypros.com/nfl/projections/qb.php?max-yes=true&min
        'k':"https://www.fantasypros.com/nfl/projections/k.php?max-yes=true&min-yes=true&scoring=STD&week=draft",
 }
 
+# write the xls for backup
 def write_xls(players,pos):
 	with open("data/"+pos+".xls", "wb") as f:
 		writer = csv.writer(f)
 		writer.writerows(players)
 
+# get player information according to the position
 def get_player(url,pos):
 	soup = BeautifulSoup(requests.get(url).text,'html.parser')
 	position = []
@@ -57,6 +60,7 @@ def get_player(url,pos):
 		position.append(temp)
 	write_xls(position,pos)
 
+# get players rank
 def get_rank():
 	url = "https://www.fantasypros.com/nfl/rankings/consensus-cheatsheets.php"
 	soup = BeautifulSoup(requests.get(url).text,'html.parser')
@@ -86,6 +90,7 @@ def get_rank():
 		playrank.append(temp)
 	write_xls(playrank,'rank')
 
+# defense has a unique evaluation, so the data is of a different form than the players
 def get_def():
 	url = "https://www.fantasypros.com/nfl/rankings/dst-cheatsheets.php"
 	sde = BeautifulSoup(requests.get(url).text,'html.parser')
@@ -107,6 +112,7 @@ def get_def():
 		playde.append(temp)
 	write_xls(playde,'def')
 
+# main and writer
 def main():
 	for pos in url:
 		get_player(url[pos],pos)
