@@ -1,0 +1,181 @@
+{% extends "base2.html" %}
+{% block content %}
+<script type=text/javascript>
+	$( document ).ready(function() {
+		$("input[name='slider']").slider();
+//		$("#distance").slider({
+//			tooltip: 'always'
+//		});
+
+	});
+	$(function() {
+		$('#subbutton').click(function() {
+			$.post('/prediction', {
+				down:$('input[name=down]:checked').val(),
+				distance:$('#distance').val(),
+				minutes:$('#minutes').val(),
+				yards:$('#yards').val(),
+				offense:$('#offense').val(),
+				defense:$('#defense').val(),
+				scoreOff:$('#scoreOff').val(),
+				scoreDef:$('#scoreDef').val(),
+				quarter:$('input[name=quarter]:checked').val()
+			},function(data){
+//				$("#sect1").text(data.pre+' with a probability of: '+data.err);
+				$("#sect2").text(data.pre);
+				$("#sect3").text('With a mean probability of: '+data.err)
+				$("#sect4").text('And 95% credible interval bounded by '+data.low+' and '+data.high)
+//				alert(data.pre)
+//				alert(data.err)
+			},"json")
+		});
+	});
+	$(function() {
+		$("#distance").on("slide", function(slideEvt) {
+			$("#distanceVal").text(slideEvt.value);
+		});
+	});
+	$(function() {
+		$("#minutes").on("slide", function(slideEvt) {
+			$("#minutesVal").text(slideEvt.value);
+		});
+	});
+	$(function() {
+		$("#yards").on("slide", function(slideEvt) {
+			$("#yardsVal").text(slideEvt.value);
+		});
+	});
+	$(function() {
+		$("#scoreOff").on("slide", function(slideEvt) {
+			$("#scoreOffVal").text(slideEvt.value);
+		});
+	});
+	$(function() {
+		$("#scoreDef").on("slide", function(slideEvt) {
+			$("#scoreDefVal").text(slideEvt.value);
+		});
+	});
+</script>
+<div class="container theme-showcase" role="main">
+	<div class="jumbotron">
+	        <h1>Anticiplay</h1>
+			<p>Please input the following.</p>
+	</div>
+	<div class="col-md-6">
+		<dl>
+			<dt>Down:</dt>
+				<dd>
+				<input type="radio" name="down" value="1">1
+				<input type="radio" name="down" value="2">2
+				<input type="radio" name="down" value="3">3
+				<input type="radio" name="down" value="4">4
+				</dd>
+				<br />
+			<dt>Distance:</dt>
+				<!dd><!input type=text size=30 id='distance'><!/dd>
+				<td><input type='text' name='slider' id='distance' value='10' data-slider-min='1' data-slider-max='15' data-slider-step='1' data-slider-value='10' style='width:400px' /></td>
+				<span id="distanceVal">10</span><span id="yardsout"> Yards</span>
+			<dt>Quarter:</dt>
+				<dd>
+					<input type="radio" name="quarter" value="1">Q1
+					<input type="radio" name="quarter" value="2">Q2
+					<input type="radio" name="quarter" value="3">Q3
+					<input type="radio" name="quarter" value="4">Q4
+				</dd>
+				<br />
+			<dt>Time left in the quarter:</dt>
+				<!dd><!input type=text size=30 id='time'><!/dd>
+				<input type='text' name='slider' id='minutes' value='0' data-slider-min='0' data-slider-max='15' data-slider-step='1' data-slider-value='50' style='width:400px' />
+				<span id="minutesVal">15</span><span id="minutesout"> Minutes</span>
+			<dt>Distance to the goal:</dt>
+				<!img  alt="" src="https://thumbs.dreamstime.com/x/nfl-football-field-eps-16199956.jpg" class="img-responsive" /><!br>
+				<td><input type='text' name='slider' id='yards' value='50' data-slider-min='1' data-slider-max='100' data-slider-step='1' data-slider-value='50' style='width:400px' /></td>
+				<span id="yardsVal">50</span><span id="yardsout"> Yards</span>
+			<dt>Offense:</dt>
+				<dd><select id='offense'>
+					<option value="ARI">ARI</option>
+					<option value="ATL">ATL</option>
+					<option value="BAL">BAL</option>
+					<option value="BUF">BUF</option>
+					<option value="CAR">CAR</option>
+					<option value="CHI">CHI</option>
+					<option value="CIN">CIN</option>
+					<option value="CLE">CLE</option>
+					<option value="DAL">DAL</option>
+					<option value="DEN">DEN</option>
+					<option value="DET">DET</option>
+					<option value="GB" >GB</option>
+					<option value="HOU">HOU</option>
+					<option value="IND">IND</option>
+					<option value="JAC">JAC</option>
+					<option value="KC" >KC</option>
+					<option value="LA" >LA</option>
+					<option value="MIA">MIA</option>
+					<option value="MIN">MIN</option>
+					<option value="NE" >NE</option>
+					<option value="NO" >NO</option>
+					<option value="NYG">NYG</option>
+					<option value="NYJ">NYJ</option>
+					<option value="OAK">OAK</option>
+					<option value="PHI">PHI</option>
+					<option value="PIT">PIT</option>
+					<option value="SEA">SEA</option>
+					<option value="SD" >SD</option>
+					<option value="SF" >SF</option>
+					<option value="TEN">TEN</option>
+					<option value="WAS">WAS</option>
+				</select></dd>
+			<dt>Defense:</dt>
+				<dd><select id='defense'>
+					<option value="ARI">ARI</option>
+					<option value="ATL">ATL</option>
+					<option value="BAL">BAL</option>
+					<option value="BUF">BUF</option>
+					<option value="CAR">CAR</option>
+					<option value="CHI">CHI</option>
+					<option value="CIN">CIN</option>
+					<option value="CLE">CLE</option>
+					<option value="DAL">DAL</option>
+					<option value="DEN">DEN</option>
+					<option value="DET">DET</option>
+					<option value="GB" >GB</option>
+					<option value="HOU">HOU</option>
+					<option value="IND">IND</option>
+					<option value="JAC">JAC</option>
+					<option value="KC" >KC</option>
+					<option value="LA" >LA</option>
+					<option value="MIA">MIA</option>
+					<option value="MIN">MIN</option>
+					<option value="NE" >NE</option>
+					<option value="NO" >NO</option>
+					<option value="NYG">NYG</option>
+					<option value="NYJ">NYJ</option>
+					<option value="OAK">OAK</option>
+					<option value="PHI">PHI</option>
+					<option value="PIT">PIT</option>
+					<option value="SEA">SEA</option>
+					<option value="SD" >SD</option>
+					<option value="SF" >SF</option>
+					<option value="TEN">TEN</option>
+					<option value="WAS">WAS</option>
+				</select></dd>
+				<br />
+			<dt>Offense Score:</dt>
+				<td><input type='text' name='slider' id='scoreOff' value='0' data-slider-min='0' data-slider-max='50' data-slider-step='1' data-slider-value='0' style='width:400px' /></td>
+				<!dd><!input type=text size=30 id='scoreOff'><!/dd>
+				<span id="scoreOffVal">0</span>
+			<dt>Defense Score:</dt>
+				<td><input type='text' name='slider' id='scoreDef' value='0' data-slider-min='0' data-slider-max='50' data-slider-step='1' data-slider-value='0' style='width:400px' /></td>
+				<!dd><!input type=text size=30 id='scoreDef'><!/dd>
+				<span id="scoreDefVal">0</span>
+			<dd><button id="subbutton"  class="btn btn-default">Submit</button></dd>
+		</dl>
+	</div>
+	<!div id="sect1"><!/div>
+	<div class="col-md-6">
+		<h2 id="sect2"></h2>
+		<h3 id="sect3"></h3>
+		<h3 id="sect4"></h3>
+	</div>
+</div>
+{% endblock %}
